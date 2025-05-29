@@ -1,6 +1,6 @@
-package com.mycompany.zoologico.model;
+package zoologico.model;
 
-import com.mycompany.zoologico.model.Alimento;
+import zoologico.model.Alimento;
 
 public class Animal {
     private int identificacao;

@@ -1,4 +1,4 @@
-package com.mycompany.zoologico.model;
+package zoologico.model;
 
 import java.util.List;
 import java.util.ArrayList;

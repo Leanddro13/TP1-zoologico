@@ -1,4 +1,4 @@
-package com.mycompany.zoologico.model;
+package zoologico.model;
 
 public class Zelador extends Funcionario {
     private String turno;

@@ -1,4 +1,4 @@
-package com.mycompany.zoologico.model;
+package zoologico.model;
 
 public abstract class Funcionario {
     protected int matricula;

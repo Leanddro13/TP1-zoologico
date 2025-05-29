@@ -1,4 +1,4 @@
-package com.mycompany.zoologico.model;
+package zoologico.model;
 
 // import com.mycompany.zoologico.model.Funcionario;
 import java.util.List;

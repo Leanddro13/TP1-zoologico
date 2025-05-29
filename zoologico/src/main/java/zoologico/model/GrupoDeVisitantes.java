@@ -1,4 +1,4 @@
-package com.mycompany.zoologico.model;
+package zoologico.model;
 
 public class GrupoDeVisitantes {
     private int quantidadePessoas;
