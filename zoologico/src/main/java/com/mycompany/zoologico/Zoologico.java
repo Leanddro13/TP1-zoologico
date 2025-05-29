@@ -1,13 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package com.mycompany.zoologico;
 
-/**
- *
- * @author leandro
- */
+import com.mycompany.zoologico.model.GuiaTuristico;
+import com.mycompany.zoologico.model.Zelador;
+import com.mycompany.zoologico.model.Alimento;
+        
+
 public class Zoologico {
 
     public static void main(String[] args) {
