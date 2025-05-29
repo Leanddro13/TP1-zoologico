@@ -1,11 +1,11 @@
 package com.mycompany.zoologico.model;
 
 public abstract class Funcionario {
-    private int matricula;
-    private String nome;
-    private String cargo;
-    private String telefone;
-    private String email;
+    protected int matricula;
+    protected String nome;
+    protected String cargo;
+    protected String telefone;
+    protected String email;
     
     public Funcionario(int matricula, String nome, String cargo, String telefone, String email){
         this.matricula = matricula;
@@ -55,5 +55,12 @@ public abstract class Funcionario {
     
     public void setEmail(String email){
         this.email = email;
-    }    
+    }
+
+    // Metodo 
+    
+    public void exibirInformacoes(){
+        // Utilize o metodo toString para exibir as informacoes
+    }
+    
 }

@@ -18,4 +18,9 @@ public class GuiaTuristico extends Funcionario{
         this.idioma = idioma;
     }
     
+    // Metodo
+    
+    public void agendarTour(){
+        // logica do tour aqui!
+    }
 }
