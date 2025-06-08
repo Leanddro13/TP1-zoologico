@@ -22,6 +22,22 @@ public class Habitat {
     
     // Getters e Setters
     
+    public String getNome(){
+        return nome;
+    }
+    
+    public void setNome(String nome){
+        this.nome = nome;
+    }    
+    
+    public boolean getStatusLimpeza(){
+        return statusLimpeza;
+    }
+    
+    public void setStatusLimpeza(boolean statusLimpeza){
+        this.statusLimpeza = statusLimpeza;
+    }
+    
     // Metodos
     
     public void adicionarHabitat(){
