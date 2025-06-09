@@ -9,7 +9,7 @@ public class Turismo {
     private int duracaoEstimada;
     private GuiaTuristico guia;
     
-    public Turismo(GrupoDevisitantes grupo, int duracaoEstimada, GuiaTuristico guia){
+    public Turismo(GrupoDeVisitantes grupo, int duracaoEstimada, GuiaTuristico guia){
         this.grupo = grupo;
         this.habitatsVisitados = new ArrayList<>();
         this.duracaoEstimada = duracaoEstimada;
