@@ -7,8 +7,8 @@ public class Animal {
     private String nome;
     private String especie;
     private int idade;
-    private Alimento = alimentacao;
-    private Habitat = habitat;
+    private Alimento alimentacao;
+    private Habitat habitat;
     
     
     public Animal(int identificacao, String nome, String especie, int idade, Alimento alimentacao, Habitat habitat){
