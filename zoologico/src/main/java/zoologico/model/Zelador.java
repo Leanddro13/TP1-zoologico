@@ -9,13 +9,40 @@ public class Zelador extends Funcionario {
     }
     
     // Getters e Setters
-    
+   
     public String getTurno() {
         return turno;
     }
 
     public void setTurno(String turno) {
         this.turno = turno;
+    }
+    
+    
+    // Metodos
+    
+    public void limparHabitat(Habitat habitat){
+        if(habitat != null){
+            habitat.setStatusLimpeza(true);
+            System.out.println("O zelador " + getNome() + " limpou o habitat " + habitat.getNome());
+        }
+        else{
+            System.out.println("Habitat inválido para limpeza");
+        }
+    }
+    
+    
+    public void alimentarAnimal(Animal animal){
+        if(animal != null && animal.getFome()){
+            animal.setFome(false);
+            System.out.println("O zelador " + getNome() + " alimentou o animal: " + animal.getNome());
+        }
+        else if(animal != null && !animal.getFome()){
+            System.out.println("O animal " + animal.getNome() + " já está alimentado.");
+        }
+        else{
+            System.out.println("Animal inválido para alimentação.");
+        }
     }
 }
     

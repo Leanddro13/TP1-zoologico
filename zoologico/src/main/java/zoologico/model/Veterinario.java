@@ -23,8 +23,16 @@ public class Veterinario extends Funcionario {
     // Metodos
     
     // Recebe como parametro um animal
-    public void examinarAnimal(){
-        // Logica para examinar animal se tiver 
-    
+    public void examinarAnimal(Animal animal){
+        if(animal != null && animal.getDoente()){
+            animal.setFome(false);
+            System.out.println("O veterinario " + getNome() + " cuidou do animal " + animal.getNome());
+        }
+        else if(animal != null && !animal.getDoente()){
+            System.out.println("O animal " + animal.getNome() + " está curado");
+        }
+        else{
+            System.out.println("Animal inválido para tratamento.");
+        }
     }
 }

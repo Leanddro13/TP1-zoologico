@@ -21,26 +21,46 @@ public class Habitat {
     }
     
     // Getters e Setters
-    
-    // Metodos
-    
-    public void adicionarHabitat(){
-        // Logica de adicionar aqui!
+
+    public int getCodigoHabitat(){
+        return codigoHabitat;
     }
     
-    public void editarHabitat(){
-        // Logica de editar aqui!
+    public void setCodigoHabitat(int codigoHabitat){
+        this.codigoHabitat = codigoHabitat;
+    }  
+    
+    public String getNome(){
+        return nome;
     }
     
-    public void removerHabitat(){
-        // Logica de remover aqui!
-    }
-    
-    public void listarHabits(){
-        System.out.println("Todos os habitats: ");
-        
-        for (Animal a : animais){
-            System.out.println(a);
-        }
+    public void setNome(String nome){
+        this.nome = nome;
     }    
+    
+    public String getBioma(){
+        return bioma;
+    }
+    
+    public void setBioma(String bioma){
+        this.bioma = bioma;
+    }
+    
+    public Double getArea(){
+        return area;
+    }
+    
+    public void setArea(Double area){
+        this.area = area;
+    }      
+    
+    public boolean getStatusLimpeza(){
+        return statusLimpeza;
+    }
+    
+    public void setStatusLimpeza(boolean statusLimpeza){
+        this.statusLimpeza = statusLimpeza;
+    }
+    
+    // Metodos   
 }

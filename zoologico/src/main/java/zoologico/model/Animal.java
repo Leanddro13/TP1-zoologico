@@ -1,23 +1,23 @@
 package zoologico.model;
 
-import zoologico.model.Alimento;
-
 public class Animal {
     private int identificacao;
     private String nome;
     private String especie;
-    private int idade;
-    private Alimento = alimentacao;
-    private Habitat = habitat;
+    private Alimento alimentacao;
+    private Habitat habitat;
+    private boolean doente;
+    private boolean fome;
     
     
-    public Animal(int identificacao, String nome, String especie, int idade, Alimento alimentacao, Habitat habitat){
+    public Animal(int identificacao, String nome, String especie, Alimento alimentacao, Habitat habitat, boolean doente, boolean fome){
         this.identificacao = identificacao;
         this.nome = nome;
         this.especie = especie;
-        this.idade = idade;
         this.alimentacao = alimentacao;
         this.habitat = habitat;
+        this.doente = doente;
+        this.fome = fome;
     }
     
     // Getters e Setters
@@ -33,10 +33,40 @@ public class Animal {
     public void setNome(String nome){
         this.nome = nome;
     }
+    
+    public boolean getDoente(){
+        return doente;
+    }
+    
+    public void setDoente(boolean doente){
+        this.doente = doente;
+    }    
+
+    public boolean getFome(){
+        return fome;
+    }
+    
+    public void setFome(boolean fome){
+        this.fome = fome;
+    }    
         
     // Metodos
     
-    public void descricao(){
-        // Logica para descrever os animais
+    @Override
+    public String toString(){
+        return "Animal {" +
+                "ID: " + identificacao +
+                ", Nome: " + nome +
+                ", Especie: " + especie +
+                ", Alimentacao: " + alimentacao +
+                ", Habitat: " + habitat +
+                ", Doente: " + (doente ? "SIM" : "NÃO") +
+                ", Fome: " + (fome ? "SIM" : "NÃO") +
+                '}';
     }
+    
+    public void descricao(){
+        System.out.println(this.toString());
+    }
+    
 }
