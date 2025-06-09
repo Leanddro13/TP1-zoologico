@@ -1,6 +1,6 @@
 package zoologico.model;
 
-public abstract class Funcionario {
+public class Funcionario {
     protected int matricula;
     protected String nome;
     protected String cargo;
@@ -15,8 +15,6 @@ public abstract class Funcionario {
         this.email = email;
     }
     
-    // Getters e setters
-
     public int getMatricula(){
         return matricula;
     }
@@ -35,7 +33,7 @@ public abstract class Funcionario {
         
     public String getCargo(){
         return cargo;
-    }    
+    }   
     
     public void setCargo(String cargo){
         this.cargo = cargo;
@@ -43,7 +41,7 @@ public abstract class Funcionario {
 
     public String getTelefone(){
         return telefone;
-    }    
+    }   
     
     public void setTelefone(String telefone){
         this.telefone = telefone;
@@ -51,16 +49,14 @@ public abstract class Funcionario {
     
     public String getEmail(){
         return email;
-    }    
+    }   
     
     public void setEmail(String email){
         this.email = email;
     }
 
-    // Metodo 
-    
-    public void exibirInformacoes(){
-        // Utilize o metodo toString para exibir as informacoes
+    @Override
+    public String toString() {
+        return "Funcionario [Matrícula=" + matricula + ", Nome=" + nome + ", Cargo=" + cargo + "]";
     }
-    
 }
