@@ -25,6 +25,24 @@ public class Turismo {
     public void setDuracaoEstimada(int duracaoEstimada){
         this.duracaoEstimada = duracaoEstimada;
     }
+
+     public List<Habitat> getHabitatsVisitados() {
+        return habitatsVisitados;
+    }
+
+    public void setHabitatsVisitados(List<Habitat> habitatsVisitados) {
+        this.habitatsVisitados = habitatsVisitados;
+    }
+    
+    // Manipulacao da lista
+    
+    public void adicionarHabitat(Habitat habitat) {
+        this.habitatsVisitados.add(habitat);
+    }
+
+    public void removerHabitat(Habitat habitat) {
+        this.habitatsVisitados.remove(habitat);
+    }
     
     // Metodos
     
