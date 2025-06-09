@@ -11,7 +11,7 @@ public class Turismo {
     
     public Turismo(GrupoDevisitantes grupo, int duracaoEstimada, GuiaTuristico guia){
         this.grupo = grupo;
-        this.habitsVisitados = new ArrayList<>();
+        this.habitatsVisitados = new ArrayList<>();
         this.duracaoEstimada = duracaoEstimada;
         this.guia = guia;
     }
