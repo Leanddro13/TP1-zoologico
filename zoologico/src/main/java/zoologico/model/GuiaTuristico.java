@@ -19,8 +19,14 @@ public class GuiaTuristico extends Funcionario{
     }
     
     // Metodo
-    
-    public void agendarTour(){
-        // logica do tour aqui!
+    @Override
+    public String toString(){
+        return "Guia{" +
+                "Nome" + nome +
+                "Matricula" + matricula +
+                "Telefone" + telefone +
+                "}"
+                ;
     }
+    
 }
