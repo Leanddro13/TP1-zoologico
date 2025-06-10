@@ -37,7 +37,7 @@ public class TurismoRepo {
     //}
 
     public void editarTurismo(int idTurismo, int novaDuracaoEstimada){
-        for(Turismo t: turismo){
+        for(Turismo t: turismos){
             if(t.getIdTurismo() == idTurismo){
                 t.setDuracaoEstimada(novaDuracaoEstimada);
                 System.out.println("Tour editada com sucesso.");
@@ -50,9 +50,5 @@ public class TurismoRepo {
     public void removerTurismo(int idTurismo) {
         turismos.removeIf(t -> t.getIdTurismo() == idTurismo);
             System.out.println("Turismo removido com sucesso!");
-        } else {
-            System.out.println("Id inválido para remoção!");
-        }
     }
-
-
+}
