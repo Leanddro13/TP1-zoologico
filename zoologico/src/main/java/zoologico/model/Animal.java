@@ -5,17 +5,15 @@ public class Animal {
     private String nome;
     private String especie;
     private Alimento alimentacao;
-    private Habitat habitat;
     private boolean doente;
     private boolean fome;
     
     
-    public Animal(int identificacao, String nome, String especie, Alimento alimentacao, Habitat habitat, boolean doente, boolean fome){
+    public Animal(int identificacao, String nome, String especie, Alimento alimentacao, boolean doente, boolean fome){
         this.identificacao = identificacao;
         this.nome = nome;
         this.especie = especie;
         this.alimentacao = alimentacao;
-        this.habitat = habitat;
         this.doente = doente;
         this.fome = fome;
     }
@@ -33,6 +31,22 @@ public class Animal {
     public void setNome(String nome){
         this.nome = nome;
     }
+    
+    public String getEspecie(){
+        return especie;
+    }
+    
+    public void setEspecie(String especie){
+        this.especie = especie;
+    }     
+    
+    public Alimento getAlimentacao(){
+        return alimentacao;
+    }
+    
+    public void setAlimentacao(Alimento alimentacao){
+        this.alimentacao = alimentacao;
+    }    
     
     public boolean getDoente(){
         return doente;
@@ -59,7 +73,6 @@ public class Animal {
                 ", Nome: " + nome +
                 ", Especie: " + especie +
                 ", Alimentacao: " + alimentacao +
-                ", Habitat: " + habitat +
                 ", Doente: " + (doente ? "SIM" : "NÃO") +
                 ", Fome: " + (fome ? "SIM" : "NÃO") +
                 '}';

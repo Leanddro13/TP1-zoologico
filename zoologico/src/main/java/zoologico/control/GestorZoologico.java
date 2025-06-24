@@ -71,10 +71,11 @@ public class GestorZoologico {
         System.out.println("Animal adicionado com sucesso.");
     }
 
-    public void editarAnimal(int id, String novoNome, boolean novoStatusDoente, boolean novoStatusFome) {
+    public void editarAnimal(int id, String novoNome, String novaEspecie, boolean novoStatusDoente, boolean novoStatusFome) {
         for (Animal a : animais) {
             if (a.getIdenticacao() == id) {
                 a.setNome(novoNome);
+                a.setEspecie(novaEspecie);
                 a.setDoente(novoStatusDoente);
                 a.setFome(novoStatusFome);
                 System.out.println("Animal editado com sucesso.");

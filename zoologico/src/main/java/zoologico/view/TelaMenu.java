@@ -1,21 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package zoologico.view;
 
-/**
- *
- * @author leandro
- */
-public class TelaMenu extends javax.swing.JFrame {
+import zoologico.control.GestorZoologico;
 
-    /**
-     * Creates new form Menu
-     */
-    public TelaMenu() {
+public class TelaMenu extends javax.swing.JFrame {
+    private GestorZoologico gestor;
+    
+    public TelaMenu(GestorZoologico gestor){
+        this.gestor = gestor;
         initComponents();
         setLocationRelativeTo(null);
+    }
+    
+    public TelaMenu() {
+        initComponents();
     }
 
     /**
@@ -117,7 +114,7 @@ public class TelaMenu extends javax.swing.JFrame {
 
     // Botao para abrir pagina de animais
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        TelaAnimal telaAnimal = new TelaAnimal();
+        TelaAnimal telaAnimal = new TelaAnimal(this.gestor);
         telaAnimal.setLocationRelativeTo(null);
         telaAnimal.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -128,9 +125,6 @@ public class TelaMenu extends javax.swing.JFrame {
         telaHabitat.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -172,3 +166,5 @@ public class TelaMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
+
+
