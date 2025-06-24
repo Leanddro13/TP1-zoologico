@@ -65,29 +65,35 @@ public class GestorZoologico {
     
     // Métodos para Animal
 
-    public void adicionarAnimal(Animal animal) {
-        animais.add(animal);
-        // animal.getHabitat().getAnimais().add(animal); // Implementar essa lógica para proxima entrega
-        System.out.println("Animal adicionado com sucesso.");
+    public boolean adicionarAnimal(Animal novoAnimal) {
+        for(Animal animalExistente : animais){
+            if(animalExistente.getIdentificacao() == novoAnimal.getIdentificacao()){
+                System.out.println("Erro: já existe um animal cadastrado com o ID " + novoAnimal.getIdentificacao());
+                return false;
+            }
+        }
+        
+        animais.add(novoAnimal);
+        System.out.println("Animal adicionado com sucesso!");
+        return true;
     }
 
-    public void editarAnimal(int id, String novoNome, String novaEspecie, boolean novoStatusDoente, boolean novoStatusFome) {
+    public boolean editarAnimal(int id, String novoNome, String novaEspecie, boolean novoStatusDoente, boolean novoStatusFome) {
         for (Animal a : animais) {
-            if (a.getIdenticacao() == id) {
+            if (a.getIdentificacao() == id) {
                 a.setNome(novoNome);
                 a.setEspecie(novaEspecie);
                 a.setDoente(novoStatusDoente);
                 a.setFome(novoStatusFome);
                 System.out.println("Animal editado com sucesso.");
-                return;
+                return true;
             }
         }
-        System.out.println("Animal com ID " + id + " não encontrado.");
+        return false;
     }
 
-    public void removerAnimal(int id) {
-        animais.removeIf(a -> a.getIdenticacao() == id);
-        System.out.println("Animal removido!!"); // Se existir
+    public boolean removerAnimal(int id) {
+        return animais.removeIf(a -> a.getIdentificacao() == id);
     }
 
     public void listarAnimais() {
@@ -95,6 +101,15 @@ public class GestorZoologico {
             a.descricao();
         }
     }
-
+    
+    
+    public Animal buscarAnimalPorId(int id) {
+        for (Animal animal : animais) {
+            if (animal.getIdentificacao() == id) {
+                return animal;
+            }
+        }
+        return null;
+    } 
 
 }

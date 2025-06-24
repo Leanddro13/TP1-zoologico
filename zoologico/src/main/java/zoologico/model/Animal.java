@@ -20,7 +20,7 @@ public class Animal {
     
     // Getters e Setters
     
-    public int getIdenticacao(){
+    public int getIdentificacao(){
         return identificacao;
     }
     

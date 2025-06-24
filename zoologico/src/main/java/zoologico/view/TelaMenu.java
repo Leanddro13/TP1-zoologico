@@ -2,6 +2,7 @@ package zoologico.view;
 
 import zoologico.control.GestorZoologico;
 
+
 public class TelaMenu extends javax.swing.JFrame {
     private GestorZoologico gestor;
     
@@ -109,7 +110,7 @@ public class TelaMenu extends javax.swing.JFrame {
     // Botao para abrir pagina de funcionarios
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Botao para abrir pagina de animais
