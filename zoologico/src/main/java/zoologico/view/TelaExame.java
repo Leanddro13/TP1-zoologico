@@ -1,20 +1,104 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package zoologico.view;
 
-/**
- *
- * @author leandro
- */
-public class TelaExame extends javax.swing.JFrame {
+import zoologico.control.GestorZoologico;
+import zoologico.model.Funcionario;
+import zoologico.model.Veterinario;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel; // Para usar um modelo padrão
+import zoologico.model.Animal; // Novo import
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableModel; 
 
-    /**
-     * Creates new form TelaExame
-     */
-    public TelaExame() {
+public class TelaExame extends javax.swing.JFrame {
+    private GestorZoologico gestor;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+     
+    
+    public TelaExame(GestorZoologico gestor) {
+        this.gestor = gestor;
         initComponents();
+        popularComboBoxVeterinarios();
+        popularTabelaAnimaisDoentes();
+        
+        try {
+            javax.swing.text.MaskFormatter mf = new javax.swing.text.MaskFormatter("##/##/####");
+            mf.setPlaceholderCharacter('_');
+            jFormattedTextField1 = new javax.swing.JFormattedTextField(mf);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        // Coloca a data atual no campo de data ao iniciar
+        jFormattedTextField1.setText(dateFormat.format(new Date()));
+        
+        
+        jProgressBar1.setMinimum(0);
+        jProgressBar1.setMaximum(100); // 100%
+        jProgressBar1.setValue(0);
+    }
+    
+    private void popularComboBoxVeterinarios() {
+        System.out.println("Iniciando popularComboBoxVeterinarios()...");
+
+        jComboBox1.removeAllItems();
+
+        // O modelo agora é de Strings
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(); 
+
+        if (gestor == null) {
+            System.err.println("Erro: GestorZoologico é nulo em TelaExame!");
+            return;
+        }
+
+        List<Funcionario> todosFuncionarios = gestor.listarTodosFuncionarios();
+        System.out.println("Total de funcionários obtidos do gestor: " + todosFuncionarios.size());
+
+        int veterinariosEncontrados = 0;
+        for (Funcionario f : todosFuncionarios) {
+            System.out.println("Processando funcionário: " + f.getNome() + " (Tipo: " + f.getClass().getSimpleName() + ")");
+            if(f instanceof Veterinario) {
+                Veterinario vet = (Veterinario) f;
+                model.addElement(vet.getNome()); // << AQUI: Adiciona APENAS o nome
+                veterinariosEncontrados++;
+                System.out.println("Adicionado veterinário ao ComboBox: " + vet.getNome());
+            }
+        }
+        System.out.println("Total de veterinários adicionados ao modelo: " + veterinariosEncontrados);
+
+        jComboBox1.setModel(model);
+
+        if (model.getSize() > 0) {
+            jComboBox1.setSelectedIndex(0);
+        } else {
+            System.out.println("Nenhum veterinário encontrado para adicionar ao ComboBox.");
+        }
+        System.out.println("popularComboBoxVeterinarios() finalizado.");
+    }
+    
+    private void popularTabelaAnimaisDoentes() {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0); // Limpa a tabela
+
+        List<Animal> animaisDoentes = gestor.listarAnimaisDoentes();
+
+        if (animaisDoentes.isEmpty()) {
+            System.out.println("Nenhum animal doente encontrado.");
+            // Opcional: mostrar mensagem na tabela ou desabilitar botões
+        } else {
+            for (Animal animal : animaisDoentes) {
+                model.addRow(new Object[]{
+                    animal.getIdentificacao(),
+                    animal.getNome(),
+                    animal.getEspecie(),
+                    animal.getDoente() ? "Sim" : "Não" // Coluna "Doente"
+                });
+            }
+        }
     }
 
     /**
@@ -28,17 +112,18 @@ public class TelaExame extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jProgressBar1 = new javax.swing.JProgressBar();
         jLabel7 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consulta");
@@ -47,63 +132,35 @@ public class TelaExame extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Examinar Animal");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Animal a ser examinado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Liberation Sans", 1, 15))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Animais doentes", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Liberation Sans", 1, 15))); // NOI18N
 
-        jLabel2.setText("Doença:");
-
-        jLabel3.setText("Nome:");
-
-        jLabel4.setText("Especie:");
-
-        jLabel5.setText("Veterinario:");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID", "Nome", "Especie", "Doente"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel4)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addGap(12, 12, 12)))
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField3))
-                .addGap(171, 171, 171)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Curar");
+        jButton1.setText("Histórico");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -112,44 +169,102 @@ public class TelaExame extends javax.swing.JFrame {
 
         jLabel7.setText("Tempo restante:");
 
+        jButton2.setText("Curar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jFormattedTextField1.setText("00/00/0000");
+        jFormattedTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextField1ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Data:");
+
+        jLabel3.setText("Veterinários:");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>());
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Descrição do tratamento:");
+
+        jTextField1.setText("O que foi feito?");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(148, 148, 148)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(257, 257, 257)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(17, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(331, 331, 331))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(254, 254, 254))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addGap(61, 61, 61))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(150, 150, 150)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(139, 139, 139))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
         );
@@ -158,8 +273,97 @@ public class TelaExame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        // Abre a tela de histórico e passa o gestor para ela
+        TelaHistoricoTratamento telaHistorico = new TelaHistoricoTratamento(this.gestor);
+        telaHistorico.setLocationRelativeTo(null); // Centraliza na tela
+        telaHistorico.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, selecione um animal doente na tabela.", "Nenhum Animal Selecionado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int idAnimalSelecionado = (int) jTable1.getValueAt(selectedRow, 0);
+        // REMOVA ESTA LINHA: Veterinario veterinarioSelecionado = (Veterinario) jComboBox1.getSelectedItem();
+
+        String dataTratamento = jFormattedTextField1.getText();
+        String descricaoTratamento = jTextField1.getText();
+
+        // Esta lógica já busca o Veterinario pelo nome selecionado no ComboBox
+        String nomeVeterinarioSelecionado = (String) jComboBox1.getSelectedItem();
+        Veterinario veterinarioSelecionado = null; // Declare aqui e inicialize como null
+
+        if (nomeVeterinarioSelecionado != null && !nomeVeterinarioSelecionado.isEmpty()) {
+            List<Funcionario> todosFuncionarios = gestor.listarTodosFuncionarios();
+            for (Funcionario f : todosFuncionarios) {
+                if (f instanceof Veterinario) {
+                    Veterinario vet = (Veterinario) f;
+                    if (vet.getNome().equals(nomeVeterinarioSelecionado)) {
+                        veterinarioSelecionado = vet; // << Preenche a variável aqui
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (veterinarioSelecionado == null) { // Agora esta verificação faz sentido
+            JOptionPane.showMessageDialog(this, "Por favor, selecione um veterinário válido.", "Veterinário Não Selecionado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (dataTratamento.isEmpty() || dataTratamento.contains("_")) {
+            JOptionPane.showMessageDialog(this, "Por favor, insira a data do tratamento.", "Data Inválida", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (descricaoTratamento.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, insira a descrição do tratamento.", "Descrição Vazia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Desabilitar botões e campos durante o processo de cura
+        jButton2.setEnabled(false);
+        jButton1.setEnabled(false);
+        jComboBox1.setEnabled(false);
+        jFormattedTextField1.setEnabled(false);
+        jTextField1.setEnabled(false);
+        jTable1.setEnabled(false);
+
+        // Inicia o SwingWorker para o processo de cura
+        new CurarAnimalTask(idAnimalSelecionado, veterinarioSelecionado, dataTratamento, descricaoTratamento).execute();
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        String nomeVeterinarioSelecionado = (String) jComboBox1.getSelectedItem(); // Agora é String
+
+        if (nomeVeterinarioSelecionado != null && !nomeVeterinarioSelecionado.isEmpty()) {
+            Veterinario veterinarioSelecionado = null;
+            List<Funcionario> todosFuncionarios = gestor.listarTodosFuncionarios();
+            for (Funcionario f : todosFuncionarios) {
+                if (f instanceof Veterinario) {
+                    Veterinario vet = (Veterinario) f;
+                    if (vet.getNome().equals(nomeVeterinarioSelecionado)) {
+                        veterinarioSelecionado = vet;
+                        break;
+                    }
+                }
+            }
+
+            if (veterinarioSelecionado != null) {
+                System.out.println("Veterinário selecionado (recuperado): " + veterinarioSelecionado.getNome() +
+                                   " - Especialidade: " + veterinarioSelecionado.getEspecialidade());
+            } else {
+                System.out.println("Erro: Veterinário '" + nomeVeterinarioSelecionado + "' não encontrado na lista.");
+            }
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFormattedTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -187,28 +391,94 @@ public class TelaExame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(TelaExame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        GestorZoologico gestorTeste = new GestorZoologico();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaExame().setVisible(true);
+                new TelaExame(gestorTeste).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
+
+    // NOVO: SWINGWORKER PARA A TAREFA DE CURA
+    private class CurarAnimalTask extends SwingWorker<Void, Integer> {
+        private int idAnimal;
+        private Veterinario veterinario;
+        private String dataTratamento;
+        private String descricaoTratamento;
+
+        public CurarAnimalTask(int idAnimal, Veterinario veterinario, String dataTratamento, String descricaoTratamento) {
+            this.idAnimal = idAnimal;
+            this.veterinario = veterinario;
+            this.dataTratamento = dataTratamento;
+            this.descricaoTratamento = descricaoTratamento;
+        }
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            for (int i = 0; i <= 100; i += 10) { // Incrementa de 10 em 10 (10x)
+                Thread.sleep(1000); // Espera 1 segundo (total de 10 segundos)
+                publish(i); // Publica o progresso para o process()
+            }
+            return null;
+        }
+
+        @Override
+        protected void process(List<Integer> chunks) {
+            // Este método é executado na EDT (Event Dispatch Thread)
+            // Atualiza a barra de progresso
+            for (Integer progress : chunks) {
+                jProgressBar1.setValue(progress);
+                jLabel7.setText("Tempo restante: " + (10 - (progress / 10)) + " segundos"); // Atualiza o texto
+            }
+        }
+
+        @Override
+        protected void done() {
+            // Este método é executado na EDT quando a tarefa termina
+            try {
+                get(); // Lança qualquer exceção ocorrida em doInBackground()
+                jProgressBar1.setValue(100);
+                jLabel7.setText("Tempo restante: 0 segundos");
+                JOptionPane.showMessageDialog(TelaExame.this, "Animal curado com sucesso!", "Cura Concluída", JOptionPane.INFORMATION_MESSAGE);
+
+                // Chama o método no Gestor para realmente "curar" o animal no modelo de dados
+                gestor.curarAnimal(idAnimal, veterinario, dataTratamento, descricaoTratamento);
+                
+                // Atualiza a tabela para refletir a mudança no status do animal
+                popularTabelaAnimaisDoentes(); 
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(TelaExame.this, "Erro durante a cura: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            } finally {
+                // Habilitar botões e campos novamente
+                jButton2.setEnabled(true);
+                jButton1.setEnabled(true);
+                jComboBox1.setEnabled(true);
+                jFormattedTextField1.setEnabled(true);
+                jTextField1.setEnabled(true);
+                jTable1.setEnabled(true);
+                jProgressBar1.setValue(0); // Reseta a barra de progresso
+            }
+        }
+    }
+
 }

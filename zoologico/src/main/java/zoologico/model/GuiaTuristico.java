@@ -3,8 +3,8 @@ package zoologico.model;
 public class GuiaTuristico extends Funcionario{
     private String idioma;
     
-    public GuiaTuristico(int matricula, String nome, String cargo, String telefone, String email, String idioma){
-        super(matricula, nome, cargo, telefone, email);
+    public GuiaTuristico(int matricula, String nome, String cargo, String telefone, String idioma){
+        super(matricula, nome, cargo, telefone);
         this.idioma = idioma;
     }
     

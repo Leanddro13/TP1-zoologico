@@ -519,7 +519,7 @@ private void configurarGruposDeBotoes() {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        TelaExame exame = new TelaExame();
+        TelaExame exame = new TelaExame(this.gestor);
         exame.setLocationRelativeTo(null);
         exame.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed

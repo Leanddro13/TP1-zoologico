@@ -1,18 +1,16 @@
 package zoologico.model;
 
-public class Funcionario {
+public abstract class Funcionario {
     protected int matricula;
     protected String nome;
     protected String cargo;
     protected String telefone;
-    protected String email;
     
-    public Funcionario(int matricula, String nome, String cargo, String telefone, String email){
+    public Funcionario(int matricula, String nome, String cargo, String telefone){
         this.matricula = matricula;
         this.nome = nome;
         this.cargo = cargo;
         this.telefone = telefone;
-        this.email = email;
     }
     
     public int getMatricula(){
@@ -46,14 +44,7 @@ public class Funcionario {
     public void setTelefone(String telefone){
         this.telefone = telefone;
     }
-    
-    public String getEmail(){
-        return email;
-    }   
-    
-    public void setEmail(String email){
-        this.email = email;
-    }
+
 
     @Override
     public String toString() {

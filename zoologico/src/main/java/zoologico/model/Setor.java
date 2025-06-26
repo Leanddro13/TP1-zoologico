@@ -30,7 +30,6 @@ public class Setor {
                 f.setNome(novoNome);
                 f.setCargo(novoCargo);
                 f.setTelefone(novoTelefone);
-                f.setEmail(novoEmail);
                 return true;
             }
         }
