@@ -534,48 +534,81 @@ private void configurarGruposDeBotoes() {
     
     // Butão para pesquisar animal pelo ID
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // 1. Obter e validar o texto do campo de pesquisa
-        String textoId = pesquisarId.getText().trim();
+        // 1. Obter o texto do campo de pesquisa
+        String textoPesquisa = pesquisarId.getText().trim();
 
-        if (textoId.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, digite um ID para pesquisar.", "Campo Vazio", JOptionPane.WARNING_MESSAGE);
+        if (textoPesquisa.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, digite um ID ou um nome para pesquisar.", "Campo Vazio", JOptionPane.WARNING_MESSAGE);
+            jTable1.clearSelection(); // Limpa seleção se o campo estiver vazio
             return;
         }
 
+        // A lógica principal: tentar buscar por ID primeiro.
         try {
-            int idPesquisa = Integer.parseInt(textoId);
-
-            // 2. Chamar o método de busca na classe de lógica
+            // ========================
+            // TENTATIVA DE BUSCA POR ID
+            // ========================
+            int idPesquisa = Integer.parseInt(textoPesquisa);
             Animal animalEncontrado = gestor.buscarAnimalPorId(idPesquisa);
 
-            // 3. Processar o resultado
             if (animalEncontrado != null) {
-                // Se encontrou o animal, vamos encontrar a linha correspondente na JTable
-                for (int i = 0; i < jTable1.getRowCount(); i++) {
-                    // Pega o ID da primeira coluna (coluna 0) da tabela
-                    int idNaTabela = Integer.parseInt(jTable1.getValueAt(i, 0).toString());
-
-                    if (idNaTabela == idPesquisa) {
-                        // ENCONTRAMOS A LINHA!
-
-                        // Seleciona a linha na tabela
-                        jTable1.setRowSelectionInterval(i, i);
-
-                        // Rola a tabela para que a linha selecionada fique visível (útil para listas grandes)
-                        jTable1.scrollRectToVisible(jTable1.getCellRect(i, 0, true));
-
-                        return; // Para o loop e o método, pois já encontramos o que queríamos
-                    }
-                }
+                // Se encontrou, seleciona a linha na tabela
+                selecionarLinhaPorId(idPesquisa);
             } else {
-                // Se o método de busca retornou null, o animal não existe
+                // Se não encontrou, informa o usuário
                 JOptionPane.showMessageDialog(this, "Nenhum animal encontrado com o ID " + idPesquisa + ".", "Não Encontrado", JOptionPane.INFORMATION_MESSAGE);
-                jTable1.clearSelection(); // Limpa qualquer seleção anterior da tabela
+                jTable1.clearSelection();
             }
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "O ID deve ser um número válido.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);
-        } 
+            // =========================
+            // FALHOU A BUSCA POR ID, ENTÃO TENTAMOS POR NOME
+            // =========================
+            String nomePesquisa = textoPesquisa;
+            Animal animalEncontrado = gestor.buscarAnimalPorNome(nomePesquisa);
+
+            if (animalEncontrado != null) {
+                // Se encontrou, seleciona a linha na tabela
+                selecionarLinhaPorNome(nomePesquisa);
+            } else {
+                // Se não encontrou, informa o usuário
+                JOptionPane.showMessageDialog(this, "Nenhum animal encontrado com o nome '" + nomePesquisa + "'.", "Não Encontrado", JOptionPane.INFORMATION_MESSAGE);
+                jTable1.clearSelection();
+            }
+        }
+    }
+
+    /**
+     * Método auxiliar para encontrar e selecionar uma linha na JTable pelo ID.
+     * Isso evita a repetição de código.
+     * @param id O ID do animal a ser encontrado na tabela.
+     */
+    private void selecionarLinhaPorId(int id) {
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            // Assumindo que o ID está na primeira coluna (índice 0)
+            int idNaTabela = Integer.parseInt(jTable1.getValueAt(i, 0).toString());
+            if (idNaTabela == id) {
+                jTable1.setRowSelectionInterval(i, i);
+                jTable1.scrollRectToVisible(jTable1.getCellRect(i, 0, true));
+                return; // Encontrou, pode sair
+            }
+        }
+    }
+
+    /**
+     * Método auxiliar para encontrar e selecionar uma linha na JTable pelo Nome.
+     * @param nome O nome do animal a ser encontrado na tabela.
+     */
+    private void selecionarLinhaPorNome(String nome) {
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            // Assumindo que o Nome está na segunda coluna (índice 1)
+            String nomeNaTabela = jTable1.getValueAt(i, 1).toString();
+            if (nomeNaTabela.equalsIgnoreCase(nome)) {
+                jTable1.setRowSelectionInterval(i, i);
+                jTable1.scrollRectToVisible(jTable1.getCellRect(i, 0, true));
+                return; // Encontrou, pode sair
+            }
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     

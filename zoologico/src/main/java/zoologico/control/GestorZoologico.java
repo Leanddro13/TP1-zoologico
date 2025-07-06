@@ -130,6 +130,14 @@ public class GestorZoologico {
         return null;
     }
     
+    public Animal buscarAnimalPorNome(String nome) {
+        for (Animal animal : animais) {
+            if (animal.getNome() != null && animal.getNome().equalsIgnoreCase(nome)) {
+                return animal;
+            }
+        }
+        return null;
+    }
     
     public boolean curarAnimal(int idAnimal, Veterinario veterinario, String dataTratamentoStr, String descricaoTratamento) {
         Animal animal = buscarAnimalPorId(idAnimal);
