@@ -7,7 +7,7 @@ public class Animal {
     private Alimento alimentacao;
     private boolean doente;
     private boolean fome;
-    
+    private Habitat habitatAtual;
     
     public Animal(int identificacao, String nome, String especie, Alimento alimentacao, boolean doente, boolean fome){
         this.identificacao = identificacao;
@@ -63,19 +63,20 @@ public class Animal {
     public void setFome(boolean fome){
         this.fome = fome;
     }    
-        
+    
+    public Habitat getHabitatAtual() {
+        return habitatAtual;
+    }
+
+    public void setHabitatAtual(Habitat habitatAtual) {
+        this.habitatAtual = habitatAtual;
+    }    
+    
     // Metodos
     
     @Override
-    public String toString(){
-        return "Animal {" +
-                "ID: " + identificacao +
-                ", Nome: " + nome +
-                ", Especie: " + especie +
-                ", Alimentacao: " + alimentacao +
-                ", Doente: " + (doente ? "SIM" : "NÃO") +
-                ", Fome: " + (fome ? "SIM" : "NÃO") +
-                '}';
+    public String toString() {
+        return this.getNome() + " (" + this.getEspecie() + ")";
     }
     
     public void descricao(){

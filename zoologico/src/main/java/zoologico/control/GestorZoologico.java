@@ -75,6 +75,39 @@ public class GestorZoologico {
         }
     }
     
+    // Dentro da classe GestorZoologico.java
+
+    public Habitat buscarHabitatPorCodigo(int codigo) {
+        for (Habitat h : habitats) {
+            if (h.getCodigoHabitat() == codigo) {
+                return h;
+            }
+        }
+        return null; // Retorna null se não encontrar
+    }
+
+    public void limparHabitat(int codigo) {
+        Habitat habitat = buscarHabitatPorCodigo(codigo);
+        if (habitat != null) {
+            habitat.setStatusLimpeza(true); // Define o status como limpo (true)
+        }
+    }
+
+    public void adicionarAnimaisAoHabitat(Habitat habitat, List<Animal> animaisParaAdicionar) {
+        if (habitat == null || animaisParaAdicionar == null) {
+            return;
+        }
+        for (Animal animal : animaisParaAdicionar) {
+            // Associa o animal ao habitat.
+            // A classe Animal precisa ter um método como setHabitatAtual()
+            animal.setHabitatAtual(habitat);
+
+            // Opcional: Adicionar o animal à lista de animais do habitat
+            // habitat.getAnimaisNoHabitat().add(animal);
+        }
+    }
+    
+    
     
     // Métodos para Animal
 

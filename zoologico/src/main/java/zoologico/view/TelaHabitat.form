@@ -409,7 +409,8 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton5">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Limpeza"/>
+        <Property name="text" type="java.lang.String" value="Zelador"/>
+        <Property name="actionCommand" type="java.lang.String" value="Zelador"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton5ActionPerformed"/>
