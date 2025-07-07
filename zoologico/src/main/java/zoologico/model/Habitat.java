@@ -3,7 +3,7 @@ package zoologico.model;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Habitat {
+public class Habitat implements Relatorio{
     private int codigoHabitat;
     private String nome;
     private String bioma;
@@ -62,5 +62,15 @@ public class Habitat {
         this.statusLimpeza = statusLimpeza;
     }
     
-    // Metodos   
+    // Metodos
+    
+    @Override
+    public String toString() {
+        return this.getNome() + " (" + this.getBioma() + ")";
+    }
+    
+    @Override
+    public void descricao(){
+        System.out.println(this.toString());
+    }    
 }

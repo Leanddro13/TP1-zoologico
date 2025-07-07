@@ -12,6 +12,8 @@ public class Setor {
         this.listaFuncionarios = new ArrayList<>();
     }
     
+    // Getters e Setters
+    
     public String getDescricao(){
         return descricao;
     }
@@ -19,6 +21,8 @@ public class Setor {
     public void setDescricao(String descricao){
         this.descricao = descricao;
     }
+    
+    // Metodos
     
     public void adicionarFuncionario(Funcionario funcionario){
         this.listaFuncionarios.add(funcionario);
@@ -30,7 +34,6 @@ public class Setor {
                 f.setNome(novoNome);
                 f.setCargo(novoCargo);
                 f.setTelefone(novoTelefone);
-                f.setEmail(novoEmail);
                 return true;
             }
         }

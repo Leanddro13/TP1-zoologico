@@ -4,8 +4,8 @@ package zoologico.model;
 public class Veterinario extends Funcionario {
     private String especialidade;
     
-    public Veterinario(int matricula, String nome, String cargo, String telefone, String email, String especialidade){
-        super(matricula, nome, cargo, telefone, email);
+    public Veterinario(int matricula, String nome, String cargo, String telefone, String especialidade){
+        super(matricula, nome, cargo, telefone);
         this.especialidade = especialidade;
     }
     
