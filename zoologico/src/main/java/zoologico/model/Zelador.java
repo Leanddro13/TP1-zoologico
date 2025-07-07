@@ -18,9 +18,8 @@ public class Zelador extends Funcionario {
         this.turno = turno;
     }
     
-    
     // Metodos
-    
+    // Altera o status de limpeza do habitat
     public void limparHabitat(Habitat habitat){
         if(habitat != null){
             habitat.setStatusLimpeza(true);
@@ -31,7 +30,7 @@ public class Zelador extends Funcionario {
         }
     }
     
-    
+    // Alterar o status de fome do animal (Nao usado)
     public void alimentarAnimal(Animal animal){
         if(animal != null && animal.getFome()){
             animal.setFome(false);
@@ -43,6 +42,16 @@ public class Zelador extends Funcionario {
         else{
             System.out.println("Animal inválido para alimentação.");
         }
+    }
+    
+    @Override
+    // Sobrescrita do metodo da classe funcionario
+    public String toString(){
+        return "Zelador{" +
+                "Nome" + nome +
+                "Matricula" + matricula +
+                "Telefone" + telefone +
+                "}";
     }
 }
     

@@ -13,6 +13,8 @@ public abstract class Funcionario {
         this.telefone = telefone;
     }
     
+    // Getters e setters
+    
     public int getMatricula(){
         return matricula;
     }
@@ -45,7 +47,8 @@ public abstract class Funcionario {
         this.telefone = telefone;
     }
 
-
+    // Metodos
+    
     @Override
     public String toString() {
         return "Funcionario [Matrícula=" + matricula + ", Nome=" + nome + ", Cargo=" + cargo + "]";

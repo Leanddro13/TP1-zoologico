@@ -45,7 +45,7 @@ public class TelaMenu extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Funcionários");
+        jButton2.setText("Análise");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -110,7 +110,8 @@ public class TelaMenu extends javax.swing.JFrame {
     // Botao para abrir pagina de funcionarios
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
+        TelaAnalise telaAnalise = new TelaAnalise(this.gestor);
+        telaAnalise.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Botao para abrir pagina de animais

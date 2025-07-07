@@ -18,7 +18,8 @@ public class GuiaTuristico extends Funcionario{
         this.idioma = idioma;
     }
     
-    // Metodo
+    // Metodos
+    // Sobrescrita do metodo da classe funcionario
     @Override
     public String toString(){
         return "Guia{" +

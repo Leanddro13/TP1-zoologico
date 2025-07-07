@@ -1,6 +1,6 @@
 package zoologico.model;
 
-public class Animal {
+public class Animal implements Relatorio {
     private int identificacao;
     private String nome;
     private String especie;
@@ -79,6 +79,7 @@ public class Animal {
         return this.getNome() + " (" + this.getEspecie() + ")";
     }
     
+    @Override
     public void descricao(){
         System.out.println(this.toString());
     }
