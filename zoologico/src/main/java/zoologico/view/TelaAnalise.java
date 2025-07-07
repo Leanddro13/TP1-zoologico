@@ -18,7 +18,7 @@ public class TelaAnalise extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         // Define um layout para organizar os gráficos (ex: 2 colunas)
-        setLayout(new GridLayout(1, 2)); 
+        setLayout(new GridLayout(2, 2)); 
         
         iniciarComponentes();
         
@@ -38,8 +38,12 @@ public class TelaAnalise extends JFrame {
         ChartPanel painelGraficoAnimais = new ChartPanel(graficoAnimais);
         ChartPanel painelGraficoFuncionarios = new ChartPanel(graficoFuncionarios);
         
+        JFreeChart graficoVeterinarios = analisador.criarGraficoTratamentosPorVeterinario();
+        
         // 4. Adiciona os painéis à janela
         add(painelGraficoAnimais);
         add(painelGraficoFuncionarios);
+        add(new ChartPanel(graficoVeterinarios));
+
     }
 }

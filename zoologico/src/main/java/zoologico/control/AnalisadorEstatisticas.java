@@ -39,6 +39,16 @@ public class AnalisadorEstatisticas {
         return contagem;
     }
  
+    public Map<String, Integer> contarTratamentosPorVeterinario() {
+        Map<String, Integer> contagem = new HashMap<>();
+        // Assumindo que você tem um método no gestor para pegar o histórico
+        for (zoologico.model.HistoricoTratamento tratamento : gestor.listarTodoHistoricoTratamentos()) {
+            String nomeVet = tratamento.getVeterinarioResponsavel().getNome();
+            contagem.put(nomeVet, contagem.getOrDefault(nomeVet, 0) + 1);
+        }
+    return contagem;
+}
+    
         // --- MÉTODOS DE GERAÇÃO DE GRÁFICOS ---
 
     /**
@@ -88,6 +98,29 @@ public class AnalisadorEstatisticas {
                 true, true, false);                      // Legenda, Tooltips, URLs
 
         return graficoDePizza;
+    }
+
+    /**
+     * Cria um gráfico de barras mostrando o número de tratamentos por veterinário.
+     * @return Um objeto JFreeChart pronto para ser exibido.
+     */
+    public JFreeChart criarGraficoTratamentosPorVeterinario() {
+        Map<String, Integer> dados = contarTratamentosPorVeterinario();
+
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        for (Map.Entry<String, Integer> entry : dados.entrySet()) {
+            dataset.addValue(entry.getValue(), "Tratamentos", entry.getKey());
+        }
+
+        JFreeChart graficoDeBarras = ChartFactory.createBarChart(
+                "Total de Tratamentos por Veterinário",
+                "Veterinário",
+                "Nº de Tratamentos",
+                dataset,
+                PlotOrientation.VERTICAL,
+                true, true, false);
+
+        return graficoDeBarras;
     }    
     
 }

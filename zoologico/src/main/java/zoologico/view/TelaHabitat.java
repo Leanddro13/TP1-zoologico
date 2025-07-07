@@ -339,7 +339,6 @@ public class TelaHabitat extends javax.swing.JFrame {
         });
 
         jButton5.setText("Zelador");
-        jButton5.setActionCommand("Zelador");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);

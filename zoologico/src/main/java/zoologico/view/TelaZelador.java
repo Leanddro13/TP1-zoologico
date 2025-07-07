@@ -26,7 +26,7 @@ public class TelaZelador extends javax.swing.JFrame {
     }
     
 // Em TelaZelador.java
-
+    // Verificar os animais no habitats
     private void adicionarListenerDeMouseNaTabela() {
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -111,7 +111,7 @@ public class TelaZelador extends javax.swing.JFrame {
                 .collect(Collectors.toList());
         
         for (Zelador z : zeladores) {
-            jComboBox1.addItem(z.getNome() + " (Mat: " + z.getMatricula() + ")");
+            jComboBox1.addItem(z.getNome());
         }
     }
     
